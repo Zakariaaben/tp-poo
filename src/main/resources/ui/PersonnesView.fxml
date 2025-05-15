@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane fx:id="view" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="transport.ui.controllers.PersonnesViewController">
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+   <top>
+      <HBox spacing="20.0" style="-fx-alignment: center-left;" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="20.0" />
+         </padding>
+         <children>
+            <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Gestion des Personnes" />
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#showAddPersonneDialog" text="+ Ajouter une personne" />
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <TableView fx:id="personneTable">
+        <columns>
+          <TableColumn fx:id="typeCol" text="Type" />
+          <TableColumn fx:id="nameCol" text="Nom" />
+          <TableColumn fx:id="familyNameCol" text="Prénom" />
+          <TableColumn fx:id="birthDateCol" text="Date de naissance" />
+          <TableColumn fx:id="handicapCol" text="Handicap" />
+          <TableColumn fx:id="matriculeCol" text="Matricule" />
+          <TableColumn fx:id="actionCol" text="Actions" />
+        </columns>
+      </TableView>
+   </center>
+</BorderPane>

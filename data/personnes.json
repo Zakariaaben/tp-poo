@@ -1,0 +1,34 @@
+[
+  {
+    "type": "Usager",
+    "data": {
+      "id": "b7e25f1a-f41b-4260-afab-6e2b5144a6de",
+      "name": "dni",
+      "familyName": "pvdins",
+      "birthDate": "2025-05-27",
+      "hasHandicap": true
+    }
+  },
+  {
+    "type": "Employe",
+    "data": {
+      "id": "003f829d-2b4d-4d41-a604-cb30368e506b",
+      "name": "sf",
+      "familyName": "fesf",
+      "birthDate": "2025-04-29",
+      "hasHandicap": true,
+      "matricule": "fe2f2q",
+      "fonction": "ADMINISTRATIF"
+    }
+  },
+  {
+    "type": "Usager",
+    "data": {
+      "id": "ebbfc9d6-7f92-41f8-991b-016452faad24",
+      "name": "fsfe",
+      "familyName": "fesf",
+      "birthDate": "2025-05-04",
+      "hasHandicap": true
+    }
+  }
+]
