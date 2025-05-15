@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 import javafx.beans.binding.Bindings;
@@ -22,8 +23,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
+import javafx.stage.Window;
 import transport.core.CartePersonnelle;
-import transport.core.Personne;
 import transport.core.Ticket;
 import transport.core.TitreTransport;
 import transport.services.PersonneService;
@@ -56,7 +57,7 @@ public class TitresTransportViewController {
     private TableColumn<TitreTransport, String> detailsCol;
 
     @FXML
-    private TableColumn<TitreTransport, TitreTransport> actionCol;
+    private TableColumn<TitreTransport, String> actionCol;
 
     private ObservableList<TitreTransport> titreList;
     private TitreTransportService titreService;
@@ -68,6 +69,10 @@ public class TitresTransportViewController {
             personneService = new PersonneService();
             titreService = new TitreTransportService(personneService);
             titreList = FXCollections.observableArrayList(titreService.getAllTitres());
+            
+            // Sort the list by date in descending order (most recent first)
+            titreList.sort((t1, t2) -> t2.getDateAchat().compareTo(t1.getDateAchat()));
+            
             titreTable.setItems(titreList);
             setupTableColumns();
         } catch (Exception e) {
@@ -80,16 +85,20 @@ public class TitresTransportViewController {
             if (data.getValue() instanceof Ticket) {
                 return Bindings.createStringBinding(() -> "Ticket");
             } else if (data.getValue() instanceof CartePersonnelle) {
-                return Bindings.createStringBinding(() -> "Carte");
+                return Bindings.createStringBinding(() -> "Carte Personnelle");
             }
             return Bindings.createStringBinding(() -> "Inconnu");
         });
 
         personneCol.setCellValueFactory(data -> {
-            // Get person by ID
-            Personne personne = personneService.getPersonneById(data.getValue().getPersonneId());
-            return Bindings.createStringBinding(()
-                    -> personne != null ? personne.getName() + " " + personne.getFamilyName() : "Inconnu");
+            try {
+                return Bindings.createStringBinding(() -> {
+                    var personne = personneService.getPersonneById(data.getValue().getPersonneId());
+                    return personne != null ? personne.getName() + " " + personne.getFamilyName() : "N/A";
+                });
+            } catch (Exception e) {
+                return Bindings.createStringBinding(() -> "Erreur");
+            }
         });
 
         dateCol.setCellValueFactory(data -> Bindings.createStringBinding(() -> {
@@ -97,12 +106,19 @@ public class TitresTransportViewController {
             return date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         }));
 
-        prixCol.setCellValueFactory(data -> Bindings.createStringBinding(()
-                -> data.getValue().getPrix() + " DA"));
+        prixCol.setCellValueFactory(data -> Bindings.createStringBinding(() -> data.getValue().getPrix() + " €"));
 
         validiteCol.setCellValueFactory(data -> {
-            boolean valid = data.getValue().estValide(LocalDate.now());
-            return Bindings.createStringBinding(() -> valid ? "Valide" : "Non valide");
+            if (data.getValue() instanceof Ticket) {
+                Ticket ticket = (Ticket) data.getValue();
+                return Bindings.createStringBinding(()
+                        -> ticket.isUsed() ? "Utilisé" : (ticket.isValid() ? "Valide" : "Expiré"));
+            } else if (data.getValue() instanceof CartePersonnelle) {
+                CartePersonnelle carte = (CartePersonnelle) data.getValue();
+                return Bindings.createStringBinding(()
+                        -> carte.isValid() ? "Valide" : "Invalide");
+            }
+            return Bindings.createStringBinding(() -> "Inconnu");
         });
 
         detailsCol.setCellValueFactory(data -> {
@@ -117,70 +133,71 @@ public class TitresTransportViewController {
             return Bindings.createStringBinding(() -> "");
         });
 
-        actionCol.setCellFactory(col -> new TableCell<TitreTransport, TitreTransport>() {
+        actionCol.setCellFactory(col -> new TableCell<TitreTransport, String>() {
             private final Button useButton = new Button("Utiliser");
-            private final Button deleteButton = new Button("Supprimer");
-            private final javafx.scene.layout.HBox box = new javafx.scene.layout.HBox(5, useButton, deleteButton);
 
             {
                 useButton.setOnAction(event -> {
                     TitreTransport titre = getTableView().getItems().get(getIndex());
-                    if (titre instanceof Ticket) {
-                        try {
-                            boolean success = titreService.useTicket(titre);
-                            if (success) {
-                                refreshTable();
-                                showInfo("Ticket utilisé avec succès");
-                            } else {
-                                showError("Utilisation impossible",
-                                        new Exception("Ce ticket n'est pas valide ou a déjà été utilisé"));
-                            }
-                        } catch (Exception e) {
-                            showError("Erreur lors de l'utilisation du ticket", e);
-                        }
-                    } else {
-                        showInfo("Les cartes ne peuvent pas être 'utilisées', elles sont toujours valides");
-                    }
-                });
-
-                deleteButton.setOnAction(event -> {
-                    try {
-                        TitreTransport titre = getTableView().getItems().get(getIndex());
-
-                        // Confirmation dialog
-                        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
-                        confirmation.setTitle("Confirmation de suppression");
-                        confirmation.setHeaderText("Êtes-vous sûr de vouloir supprimer ce titre de transport ?");
-                        confirmation.setContentText("Cette action est irréversible.");
-
-                        Optional<ButtonType> result = confirmation.showAndWait();
-                        if (result.isPresent() && result.get() == ButtonType.OK) {
-                            titreService.deleteTitre(titre.getCurrentId());
-                            refreshTable();
-                        }
-                    } catch (Exception e) {
-                        showError("Erreur lors de la suppression", e);
-                    }
+                    handleUseTicket(titre);
                 });
             }
 
             @Override
-            protected void updateItem(TitreTransport item, boolean empty) {
+            protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) {
+                if (empty) {
                     setGraphic(null);
                 } else {
-                    // For tickets that are already used, disable the use button
-                    if (item instanceof Ticket) {
-                        Ticket ticket = (Ticket) item;
-                        useButton.setDisable(ticket.isUsed() || !ticket.isValid());
-                    } else {
-                        useButton.setDisable(true);
-                    }
-                    setGraphic(box);
+                    setGraphic(useButton);
                 }
             }
         });
+    }
+
+    private void handleUseTicket(TitreTransport titre) {
+        try {
+            if (titre.isValid()) {
+                if (titre instanceof Ticket) {
+                    Ticket ticket = (Ticket) titre;
+                    titreService.useTicket(ticket);
+
+                    // Show success dialog
+                    Alert success = new Alert(Alert.AlertType.INFORMATION);
+                    success.setTitle("Titre utilisé");
+                    success.setHeaderText("Titre utilisé avec succès");
+                    success.setContentText("Le ticket a bien été validé.");
+                    success.showAndWait();
+
+                    // Refresh the table to show updated state
+                    refreshTable();
+                } else {
+                    // Show generic usage success for other titre types
+                    Alert success = new Alert(Alert.AlertType.INFORMATION);
+                    success.setTitle("Titre utilisé");
+                    success.setHeaderText("Titre utilisé avec succès");
+                    success.setContentText("Le titre de transport a bien été utilisé.");
+                    success.showAndWait();
+                }
+            } else {
+                // Show invalid ticket dialog
+                Alert invalidAlert = new Alert(Alert.AlertType.ERROR);
+                invalidAlert.setTitle("Titre invalide");
+                invalidAlert.setHeaderText("Ce titre n'est pas valide");
+
+                if (titre instanceof Ticket) {
+                    invalidAlert.setContentText("Ce ticket n'est plus valide, il a déjà été utilisé ou est expiré.");
+                } else if (titre instanceof CartePersonnelle) {
+                    invalidAlert.setContentText("Cette carte n'est plus valide.");
+                } else {
+                    invalidAlert.setContentText("Ce titre de transport n'est plus valide.");
+                }
+
+                invalidAlert.showAndWait();
+            }
+        } catch (Exception e) {
+            showError("Erreur lors de l'utilisation du titre", e);
+        }
     }
 
     @FXML
@@ -219,8 +236,17 @@ public class TitresTransportViewController {
     }
 
     private void refreshTable() {
-        titreList.clear();
-        titreList.addAll(titreService.getAllTitres());
+        try {
+            titreList.clear();
+            List<TitreTransport> allTitres = titreService.getAllTitres();
+            
+            // Sort by date in descending order before adding to table
+            allTitres.sort((t1, t2) -> t2.getDateAchat().compareTo(t1.getDateAchat()));
+            
+            titreList.addAll(allTitres);
+        } catch (Exception e) {
+            showError("Erreur lors du rafraîchissement des données", e);
+        }
     }
 
     private void showInfo(String message) {
@@ -239,7 +265,7 @@ public class TitresTransportViewController {
 
         try {
             // Get the current window for proper ownership
-            javafx.stage.Window owner = null;
+            Window owner = null;
             if (view != null && view.getScene() != null) {
                 owner = view.getScene().getWindow();
             }

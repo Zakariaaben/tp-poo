@@ -3,6 +3,7 @@ package transport.ui.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 import javafx.beans.binding.Bindings;
@@ -64,6 +65,10 @@ public class PersonnesViewController {
         try {
             personneService = new PersonneService();
             personneList = FXCollections.observableArrayList(personneService.getAllPersonnes());
+            
+            // Sort the list by birth date in descending order (youngest first)
+            personneList.sort((p1, p2) -> p2.getBirthDate().compareTo(p1.getBirthDate()));
+            
             personneTable.setItems(personneList);
             setupTableColumns();
         } catch (Exception e) {
@@ -215,7 +220,12 @@ public class PersonnesViewController {
     private void refreshTable() {
         try {
             personneList.clear();
-            personneList.addAll(personneService.getAllPersonnes());
+            List<Personne> allPersonnes = personneService.getAllPersonnes();
+            
+            // Sort by birth date in descending order before adding to table
+            allPersonnes.sort((p1, p2) -> p2.getBirthDate().compareTo(p1.getBirthDate()));
+            
+            personneList.addAll(allPersonnes);
         } catch (Exception e) {
             showError("Erreur lors du rafraîchissement des données", e);
         }

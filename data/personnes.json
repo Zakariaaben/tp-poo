@@ -50,5 +50,17 @@
       "birthDate": "1991-10-17",
       "hasHandicap": false
     }
+  },
+  {
+    "type": "Employe",
+    "data": {
+      "id": "aa6ef673-38c2-4332-84d1-082b641104b0",
+      "name": "empl",
+      "familyName": "oye",
+      "birthDate": "1992-05-15",
+      "hasHandicap": false,
+      "matricule": "fea",
+      "fonction": "ADMINISTRATIF"
+    }
   }
 ]

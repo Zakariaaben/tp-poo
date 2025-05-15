@@ -68,5 +68,45 @@
       "personneId": "b7e25f1a-f41b-4260-afab-6e2b5144a6de",
       "type": "SOLIDARITE"
     }
+  },
+  {
+    "type": "Ticket",
+    "data": {
+      "currentId": 8,
+      "dateAchat": "2025-05-16T00:07:23.0750864",
+      "prix": 50,
+      "personneId": "d1bde1ec-d2ad-4e1e-9d82-afeeca94b295",
+      "used": true
+    }
+  },
+  {
+    "type": "Ticket",
+    "data": {
+      "currentId": 9,
+      "dateAchat": "2025-05-16T00:08:07.8002519",
+      "prix": 50,
+      "personneId": "d1bde1ec-d2ad-4e1e-9d82-afeeca94b295",
+      "used": true
+    }
+  },
+  {
+    "type": "CartePersonnelle",
+    "data": {
+      "currentId": 13,
+      "dateAchat": "2025-05-16T00:12:14.753918",
+      "prix": 2500,
+      "personneId": "d36bd954-7890-4a01-8a53-5db52af60356",
+      "type": "SOLIDARITE"
+    }
+  },
+  {
+    "type": "CartePersonnelle",
+    "data": {
+      "currentId": 35,
+      "dateAchat": "2025-05-16T00:12:53.9618537",
+      "prix": 3000,
+      "personneId": "aa6ef673-38c2-4332-84d1-082b641104b0",
+      "type": "PARTENAIRE"
+    }
   }
 ]

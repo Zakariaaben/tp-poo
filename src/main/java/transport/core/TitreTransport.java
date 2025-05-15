@@ -43,5 +43,5 @@ public abstract class TitreTransport {
         return this.prix.toString();
     }
 
-    abstract boolean isValid();
+    public abstract boolean isValid();
 }
