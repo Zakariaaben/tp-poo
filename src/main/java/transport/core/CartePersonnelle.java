@@ -2,10 +2,14 @@ package transport.core;
 import java.time.LocalDateTime;
 
 public class CartePersonnelle extends TitreTransport {
-    TypeCarte type;
+    private TypeCarte type;
 
     public CartePersonnelle(Personne usager) throws ReductionImpossibleException {
-        super(usager, LocalDateTime.now());
+        this(usager, LocalDateTime.now());
+    }
+    
+    public CartePersonnelle(Personne usager, LocalDateTime dateAchat) throws ReductionImpossibleException {
+        super(usager, dateAchat);
         this.prix = 5000;
 
         // Calcul des réductions possibles
@@ -26,7 +30,7 @@ public class CartePersonnelle extends TitreTransport {
             double prixReduit = this.prix * 0.5;
             if (prixReduit < minPrix) {
                 minPrix = prixReduit;
-                bestType = TypeCarte.SOLIDATIE;
+                bestType = TypeCarte.SOLIDARITE;
             }
         }
 
@@ -53,9 +57,21 @@ public class CartePersonnelle extends TitreTransport {
         this.type = bestType;
         this.prix = (int) minPrix;
     }
+    
+    // Constructor for deserialization
+    public CartePersonnelle(Personne usager, LocalDateTime dateAchat, Integer prix, TypeCarte type) {
+        super(usager, dateAchat);
+        this.prix = prix;
+        this.type = type;
+    }
+
+    public TypeCarte getType() {
+        return type;
+    }
 
     @Override
-    boolean isValid() {
-        return false;
+    public boolean isValid() {
+        // Carte toujours valide
+        return true;
     }
 }

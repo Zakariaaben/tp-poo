@@ -13,6 +13,7 @@
          </padding>
          <children>
             <Button fx:id="personnesBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showPersonnesView" text="Personnes" />
+            <Button fx:id="titresTransportBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showTitresTransportView" text="Titres de Transport" />
          </children>
       </VBox>
    </left>

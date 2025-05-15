@@ -1,12 +1,15 @@
 package transport;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.URL;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
-
-import java.net.URL;
 
 public class Main extends Application {
     @Override
@@ -23,14 +26,39 @@ public class Main extends Application {
             System.err.println("Error starting application: " + e.getMessage());
             e.printStackTrace();
             
-            // Display error dialog
-            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
-                    javafx.scene.control.Alert.AlertType.ERROR,
-                    "Une erreur est survenue lors du démarrage de l'application:\n\n" + e.getMessage()
-            );
-            alert.setTitle("Erreur");
-            alert.setHeaderText("Erreur de démarrage");
-            alert.showAndWait();
+            try {
+                // Display error dialog
+                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
+                        javafx.scene.control.Alert.AlertType.ERROR
+                );
+                alert.setTitle("Erreur");
+                alert.setHeaderText("Erreur de démarrage");
+                alert.setContentText("Une erreur est survenue lors du démarrage de l'application:\n\n" + e.getMessage());
+                
+                // Make sure dialog is visible and properly sized
+                alert.setResizable(true);
+                alert.getDialogPane().setPrefSize(550, 270);
+                
+                // Add exception details in expandable content area
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                e.printStackTrace(pw);
+                
+                TextArea textArea = new TextArea(sw.toString());
+                textArea.setEditable(false);
+                textArea.setWrapText(true);
+                textArea.setMaxWidth(Double.MAX_VALUE);
+                textArea.setMaxHeight(Double.MAX_VALUE);
+                
+                alert.getDialogPane().setExpandableContent(new javafx.scene.layout.GridPane());
+                alert.getDialogPane().setExpanded(true);
+                
+                System.out.println("Showing application error dialog");
+                alert.showAndWait();
+            } catch (Exception dialogEx) {
+                System.err.println("Failed to show error dialog: " + dialogEx.getMessage());
+                dialogEx.printStackTrace();
+            }
             
             throw e;
         }

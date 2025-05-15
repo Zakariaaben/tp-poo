@@ -30,5 +30,25 @@
       "birthDate": "2025-05-04",
       "hasHandicap": true
     }
+  },
+  {
+    "type": "Usager",
+    "data": {
+      "id": "d36bd954-7890-4a01-8a53-5db52af60356",
+      "name": "zak",
+      "familyName": "zak",
+      "birthDate": "2025-05-22",
+      "hasHandicap": true
+    }
+  },
+  {
+    "type": "Usager",
+    "data": {
+      "id": "d1bde1ec-d2ad-4e1e-9d82-afeeca94b295",
+      "name": "Zakaria",
+      "familyName": "Benhamiche",
+      "birthDate": "1991-10-17",
+      "hasHandicap": false
+    }
   }
 ]

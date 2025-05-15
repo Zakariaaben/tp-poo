@@ -302,7 +302,6 @@ public class PersonneService {
             } else {
                 throw new JsonParseException("Unknown Personne type: " + personne.getClass().getName());
             }
-            System.out.println("Serializing Personne of type: " + className);
 
             // Add type at the root level for clearer deserialization
             result.add("type", new JsonPrimitive(className));

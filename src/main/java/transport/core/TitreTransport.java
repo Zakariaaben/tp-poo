@@ -31,8 +31,8 @@ public abstract class TitreTransport {
         return  true;
     }
 
-    public String getDateAchat() {
-        return dateAchat.toString();
+    public LocalDateTime getDateAchat() {
+        return dateAchat;
     }
 
     public String getId() {

@@ -3,7 +3,7 @@ package transport.core;
 public enum TypeCarte {
     JUNIOR("Junior"),
     SENIOR("Senior"),
-    SOLIDATIE("Solidarité"),
+    SOLIDARITE("Solidarité"),
     PARTENAIRE("Partenaire");
     
     private final String libelle;

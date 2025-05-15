@@ -11,10 +11,20 @@ public class Ticket extends TitreTransport {
         this.prix = 50;
     }
 
+
+
     @Override
-    boolean isValid() {
+    public boolean isValid() {
         // Valide si non utilisé et la date d'achat est aujourd'hui
         return !used && dateAchat.toLocalDate().equals(LocalDate.now());
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+    
+    public void setUsed(boolean used) {
+        this.used = used;
     }
 
     public void useTicket() {

@@ -223,13 +223,36 @@ public class PersonnesViewController {
 
     private void showError(String message, Exception e) {
         System.err.println(message);
-        e.printStackTrace();
+        if (e != null) {
+            e.printStackTrace();
+        }
 
-        // Create a simple error dialog
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setHeaderText(message);
-        alert.setContentText(e.getMessage());
-        alert.showAndWait();
+        try {
+            // Get the current window for proper ownership
+            javafx.stage.Window owner = null;
+            if (view != null && view.getScene() != null) {
+                owner = view.getScene().getWindow();
+            }
+
+            // Create a simple error dialog
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(message);
+            alert.setContentText(e != null ? e.getMessage() : "Une erreur inconnue s'est produite");
+
+            // Set the owner to ensure proper modal behavior
+            if (owner != null) {
+                alert.initOwner(owner);
+            }
+
+            // Make sure alert appears on top and is properly sized
+            alert.setResizable(true);
+
+            System.out.println("Showing error dialog: " + message);
+            alert.showAndWait();
+        } catch (Exception dialogEx) {
+            System.err.println("Failed to show error dialog: " + dialogEx.getMessage());
+            dialogEx.printStackTrace();
+        }
     }
 }

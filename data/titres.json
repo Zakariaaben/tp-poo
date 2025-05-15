@@ -1,0 +1,72 @@
+[
+  {
+    "type": "Ticket",
+    "data": {
+      "currentId": 1,
+      "dateAchat": "2025-05-15T23:09:17.9734411",
+      "prix": 50,
+      "personneId": "003f829d-2b4d-4d41-a604-cb30368e506b",
+      "used": false
+    }
+  },
+  {
+    "type": "CartePersonnelle",
+    "data": {
+      "currentId": 3,
+      "dateAchat": "2025-05-15T23:29:39.2642661",
+      "prix": 2500,
+      "personneId": "b7e25f1a-f41b-4260-afab-6e2b5144a6de",
+      "type": "SOLIDARITE"
+    }
+  },
+  {
+    "type": "Ticket",
+    "data": {
+      "currentId": 15,
+      "dateAchat": "2025-05-15T23:34:08.2898663",
+      "prix": 50,
+      "personneId": "d1bde1ec-d2ad-4e1e-9d82-afeeca94b295",
+      "used": false
+    }
+  },
+  {
+    "type": "CartePersonnelle",
+    "data": {
+      "currentId": 5,
+      "dateAchat": "2025-05-15T23:36:08.9278496",
+      "prix": 2500,
+      "personneId": "ebbfc9d6-7f92-41f8-991b-016452faad24",
+      "type": "SOLIDARITE"
+    }
+  },
+  {
+    "type": "CartePersonnelle",
+    "data": {
+      "currentId": 11,
+      "dateAchat": "2025-05-15T23:36:34.5317239",
+      "prix": 2500,
+      "personneId": "b7e25f1a-f41b-4260-afab-6e2b5144a6de",
+      "type": "SOLIDARITE"
+    }
+  },
+  {
+    "type": "CartePersonnelle",
+    "data": {
+      "currentId": 13,
+      "dateAchat": "2025-05-15T23:36:42.348787",
+      "prix": 2500,
+      "personneId": "b7e25f1a-f41b-4260-afab-6e2b5144a6de",
+      "type": "SOLIDARITE"
+    }
+  },
+  {
+    "type": "CartePersonnelle",
+    "data": {
+      "currentId": 15,
+      "dateAchat": "2025-05-15T23:36:48.4182107",
+      "prix": 2500,
+      "personneId": "b7e25f1a-f41b-4260-afab-6e2b5144a6de",
+      "type": "SOLIDARITE"
+    }
+  }
+]
