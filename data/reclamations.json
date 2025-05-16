@@ -1,0 +1,31 @@
+[
+  {
+    "id": "3926e29f-8376-4a01-a72e-0f57c0cbdc11",
+    "personneId": "d1bde1ec-d2ad-4e1e-9d82-afeeca94b295",
+    "description": "fesafeabfoeusbfeaf",
+    "type": "SERVICE",
+    "etat": "REFUSE",
+    "dateReclamation": "2025-05-16T00:38:01.7870448",
+    "dateTraitement": "2025-05-16T00:38:27.5541083",
+    "reponse": "awdwd"
+  },
+  {
+    "id": "836526bb-d3fa-453c-872f-d3a7bfaaaad5",
+    "personneId": "d1bde1ec-d2ad-4e1e-9d82-afeeca94b295",
+    "description": "fesfesges",
+    "type": "SERVICE",
+    "etat": "TRAITE",
+    "dateReclamation": "2025-05-16T00:44:56.5631338",
+    "dateTraitement": "2025-05-16T00:45:05.1867524",
+    "reponse": "g4grdsg"
+  },
+  {
+    "id": "1270e946-0853-43d4-86b4-90cb0c524dcb",
+    "personneId": "d36bd954-7890-4a01-8a53-5db52af60356",
+    "description": "grgrsdgrs",
+    "type": "SERVICE",
+    "etat": "ANNULE",
+    "dateReclamation": "2025-05-16T00:45:15.0061408",
+    "dateTraitement": "2025-05-16T00:45:25.0985485"
+  }
+]

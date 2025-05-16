@@ -1,0 +1,85 @@
+/* Global Styles */
+.root {
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+    -fx-font-size: 12px;
+}
+
+/* Navbar styles */
+.button {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #ced4da;
+    -fx-border-radius: 3px;
+    -fx-padding: 10px;
+    -fx-font-weight: normal;
+    -fx-text-fill: #212529;
+}
+
+.button:hover {
+    -fx-background-color: #e9ecef;
+    -fx-cursor: hand;
+}
+
+.button-primary {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-border-color: #007bff;
+}
+
+.button-primary:hover {
+    -fx-background-color: #0069d9;
+    -fx-border-color: #0062cc;
+}
+
+/* Table styles */
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #f8f9fa;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: transparent;
+    -fx-border-color: #dee2e6;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 8px;
+}
+
+.table-view .table-cell {
+    -fx-padding: 8px;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #cce5ff;
+    -fx-text-fill: black;
+}
+
+/* Dialog styles */
+.dialog-pane {
+    -fx-background-color: white;
+    -fx-padding: 10px;
+}
+
+.dialog-pane .header-panel {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* Status colors */
+.status-pending {
+    -fx-text-fill: #ff8c00;
+}
+
+.status-processed {
+    -fx-text-fill: #008000;
+}
+
+.status-rejected {
+    -fx-text-fill: #ff0000;
+}
+
+.status-cancelled {
+    -fx-text-fill: #808080;
+}

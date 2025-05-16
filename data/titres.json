@@ -108,5 +108,15 @@
       "personneId": "aa6ef673-38c2-4332-84d1-082b641104b0",
       "type": "PARTENAIRE"
     }
+  },
+  {
+    "type": "Ticket",
+    "data": {
+      "currentId": 34,
+      "dateAchat": "2025-05-16T00:43:58.0915855",
+      "prix": 50,
+      "personneId": "d36bd954-7890-4a01-8a53-5db52af60356",
+      "used": false
+    }
   }
 ]

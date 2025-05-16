@@ -1,14 +1,17 @@
 package transport.ui.controllers;
 
-import java.io.IOException;
-import java.net.URL;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import transport.services.PersonneService;
+import transport.services.ReclamationService;
+import transport.services.TitreTransportService;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class MainWindowController {
 
@@ -19,10 +22,22 @@ public class MainWindowController {
     private Button personnesBtn;
 
     @FXML
-    private Button titresTransportBtn;
+    private Button titresBtn;
+
+    @FXML
+    private Button reclamationsBtn;
+
+    private PersonneService personneService;
+    private TitreTransportService titreTransportService;
+    private ReclamationService reclamationService;
 
     @FXML
     public void initialize() {
+        // Initialize services
+        personneService = new PersonneService();
+        titreTransportService = new TitreTransportService(personneService);
+        reclamationService = new ReclamationService(personneService);
+
         // Load PersonnesView by default
         showPersonnesView();
     }
@@ -40,50 +55,48 @@ public class MainWindowController {
     }
 
     @FXML
-    public void showTitresTransportView() {
+    public void showTitresView() {
         try {
             URL fxmlUrl = getClass().getResource("/ui/TitresTransportView.fxml");
             FXMLLoader loader = new FXMLLoader(fxmlUrl);
-            Pane titresTransportView = loader.load();
-            mainLayout.setCenter(titresTransportView);
+            Pane titresView = loader.load();
+
+            // Initialize controller with services
+            TitresTransportViewController controller = loader.getController();
+            controller.initialize();
+
+            mainLayout.setCenter(titresView);
         } catch (IOException e) {
-            showError("Erreur lors du chargement de la vue Titres de Transport", e);
+            showError("Erreur lors du chargement de la vue Titres de transport", e);
+        }
+    }
+
+    @FXML
+    public void showReclamationsView() {
+        try {
+            URL fxmlUrl = getClass().getResource("/ui/ReclamationsView.fxml");
+            FXMLLoader loader = new FXMLLoader(fxmlUrl);
+            Pane reclamationsView = loader.load();
+
+            // Initialize controller with services
+            ReclamationsViewController controller = loader.getController();
+            controller.initialize(reclamationService, personneService);
+
+            mainLayout.setCenter(reclamationsView);
+        } catch (IOException e) {
+            showError("Erreur lors du chargement de la vue Réclamations", e);
         }
     }
 
     private void showError(String message, Exception e) {
         System.err.println(message);
-        if (e != null) {
-            e.printStackTrace();
-        }
+        e.printStackTrace();
 
-        try {
-            // Get the main application window as owner
-            javafx.stage.Window owner = null;
-            if (mainLayout != null && mainLayout.getScene() != null) {
-                owner = mainLayout.getScene().getWindow();
-            }
-
-            // Create a simple error dialog or notification
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText("Une erreur est survenue");
-            alert.setContentText(message + "\n\n" + (e != null ? e.getMessage() : ""));
-
-            // Ensure the alert is a modal dialog with proper owner
-            if (owner != null) {
-                alert.initOwner(owner);
-            }
-
-            // Make dialog resizable to better display long error messages
-            alert.setResizable(true);
-
-            System.out.println("Showing error dialog for: " + message);
-            alert.showAndWait();
-        } catch (Exception dialogEx) {
-            // If we can't even show the dialog, log to console
-            System.err.println("Failed to show error dialog: " + dialogEx.getMessage());
-            dialogEx.printStackTrace();
-        }
+        // Create a simple error dialog or notification
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText("Une erreur est survenue");
+        alert.setContentText(message + "\n\n" + e.getMessage());
+        alert.showAndWait();
     }
 }

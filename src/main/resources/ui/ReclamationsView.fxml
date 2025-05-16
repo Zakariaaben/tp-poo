@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="view" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="transport.ui.controllers.ReclamationsViewController">
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+   <top>
+      <VBox spacing="15.0" BorderPane.alignment="CENTER">
+         <HBox alignment="CENTER_LEFT" spacing="20.0">
+            <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Gestion des Réclamations">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#showAddReclamationDialog" styleClass="button-primary" text="+ Ajouter une réclamation" />
+            <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshReclamations" text="Actualiser" />
+         </HBox>
+         
+         <HBox spacing="10.0" alignment="CENTER_LEFT">
+            <Label text="Filtrer par statut:" />
+            <ComboBox fx:id="statusFilterComboBox" prefWidth="150.0" promptText="Tous les statuts" />
+            
+            <Label text="Filtrer par type:" />
+            <ComboBox fx:id="typeFilterComboBox" prefWidth="150.0" promptText="Tous les types" />
+         </HBox>
+      </VBox>
+   </top>
+   <center>
+      <TableView fx:id="reclamationTable" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="typeCol" prefWidth="100.0" text="Type" />
+          <TableColumn fx:id="descriptionCol" prefWidth="200.0" text="Description" />
+          <TableColumn fx:id="personneCol" prefWidth="150.0" text="Déposé par" />
+          <TableColumn fx:id="dateCol" prefWidth="120.0" text="Date" />
+          <TableColumn fx:id="statusCol" prefWidth="100.0" text="Statut" />
+          <TableColumn fx:id="actionCol" prefWidth="100.0" text="Actions" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+   </center>
+</BorderPane>

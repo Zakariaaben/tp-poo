@@ -69,10 +69,10 @@ public class TitresTransportViewController {
             personneService = new PersonneService();
             titreService = new TitreTransportService(personneService);
             titreList = FXCollections.observableArrayList(titreService.getAllTitres());
-            
+
             // Sort the list by date in descending order (most recent first)
             titreList.sort((t1, t2) -> t2.getDateAchat().compareTo(t1.getDateAchat()));
-            
+
             titreTable.setItems(titreList);
             setupTableColumns();
         } catch (Exception e) {
@@ -239,10 +239,10 @@ public class TitresTransportViewController {
         try {
             titreList.clear();
             List<TitreTransport> allTitres = titreService.getAllTitres();
-            
+
             // Sort by date in descending order before adding to table
             allTitres.sort((t1, t2) -> t2.getDateAchat().compareTo(t1.getDateAchat()));
-            
+
             titreList.addAll(allTitres);
         } catch (Exception e) {
             showError("Erreur lors du rafraîchissement des données", e);
